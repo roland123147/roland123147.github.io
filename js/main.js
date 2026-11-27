@@ -70,13 +70,16 @@
       pr.innerHTML = PROJECTS.map(function (p) {
         var links = "";
         if (p.github) links += '<a href="' + esc(p.github) + '" target="_blank" rel="noopener">Code</a>';
-        if (p.live) links += '<a class="btn solid" href="' + esc(p.live) + '" target="_blank" rel="noopener">Visit live project</a>';
-        return '<details class="card project-card"><summary><h2>' + esc(p.title) + "</h2>" +
+        if (p.live) links += '<a class="btn solid" href="' + esc(p.live) + '" target="_blank" rel="noopener">' + esc(p.liveLabel || "Visit live project") + "</a>";
+        return '<details class="card project-card"><summary><div class="project-heading"><h2>' + esc(p.title) + "</h2>" +
+          (p.tagline ? '<p class="project-tagline">' + esc(p.tagline) + "</p>" : "") + "</div>" +
           (p.status ? '<span class="status project-status">' + esc(p.status) + "</span>" : "") +
           '</summary><div class="project-details"><p>' + esc(p.summary) + "</p>" +
+          (p.features ? '<div class="project-features"><h3>Features</h3><ul>' + p.features.map(function (f) { return "<li>" + esc(f) + "</li>"; }).join("") + "</ul></div>" : "") +
           '<div class="tags">' + p.stack.map(function (t) { return '<span class="tag">' + esc(t) + "</span>"; }).join("") + "</div>" +
           (p.architecture ? '<figure class="architecture"><img src="' + esc(p.architecture) +
-            '" alt="Find It First AWS serverless architecture diagram" loading="lazy"><figcaption>Find It First · AWS serverless architecture</figcaption></figure>' : "") +
+            '" alt="' + esc(p.architectureAlt || "AWS serverless architecture diagram") + '" loading="lazy"><figcaption>' +
+            esc(p.architectureCaption || "Find It First · AWS serverless architecture") + "</figcaption></figure>" : "") +
           (links ? '<div class="links">' + links + "</div>" : "") + "</div></details>";
       }).join("");
     }
